@@ -4,7 +4,6 @@ use std::num::ParseIntError;
 use std::iter::Iterator;
 
 pub fn day01 (filename: String) -> Option<i32> {
-    println!("{:?}", std::env::current_dir());
     let file = File::open(filename).ok()?;
     let file2 = BufReader::new(file);
     let split: Vec<_> = file2.lines().into_iter().collect::<Result<Vec<String>,_>>().ok()?;
@@ -53,7 +52,6 @@ fn get_top_three(packs: Vec<ElfPack>) -> Vec<ElfPack> {
 
 
 pub fn day01_sol2 (filename: String) -> Option<i32> {
-    println!("{:?}", std::env::current_dir());
     let mut file = File::open(filename).ok()?;
     let mut str: String = "".to_string();
     file.read_to_string(&mut str).ok()?;
