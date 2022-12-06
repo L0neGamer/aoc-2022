@@ -10,9 +10,7 @@ pub fn day01 (filename: String) -> Option<i32> {
     let split: Vec<_> = file2.lines().into_iter().collect::<Result<Vec<String>,_>>().ok()?;
     let packs = to_packs(split).ok()?;
 
-    println!("packs {packs:?}");
     let max_elf = find_max(packs)?;
-    println!("packs {max_elf:?}");
 
     let m = max_elf.cals.iter().sum();
 
@@ -62,9 +60,7 @@ pub fn day01_sol2 (filename: String) -> Option<i32> {
     let split: Vec<_> = str.split('\n').map(|x| x.to_string()).collect();
     let packs = to_packs(split).ok()?;
 
-    println!("packs {packs:?}");
     let elves = get_top_three(packs);
-    println!("packs {elves:?}");
 
     let m = elves
         .iter()
