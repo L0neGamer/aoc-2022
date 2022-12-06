@@ -8,12 +8,12 @@ pub fn day01 (filename: String) -> Option<i32> {
     let mut file = File::open(filename).ok()?;
     let mut str: String = "".to_string();
     file.read_to_string(&mut str).ok()?;
-    let split: Vec<_> = str.split("\n").map(|x| x.to_string()).collect();
+    let split: Vec<_> = str.split('\n').map(|x| x.to_string()).collect();
     let packs = to_packs(split).ok()?;
 
-    println!("packs {:?}", packs);
+    println!("packs {packs:?}");
     let max_elf = find_max(packs)?;
-    println!("packs {:?}", max_elf);
+    println!("packs {max_elf:?}");
 
     let m = max_elf.cals.iter().sum();
 
@@ -26,7 +26,7 @@ struct ElfPack {
 }
 
 fn to_packs(strs: Vec<String>) -> Result<Vec<ElfPack>, String> {
-    let collected: Vec<&[String]> = strs.split(|x| x == "").collect();
+    let collected: Vec<&[String]> = strs.split(|x| x.is_empty()).collect();
 
     let packs = collected.iter().map(|x| to_elfpack(x.to_vec())).into_iter().collect();
     match packs {
@@ -50,8 +50,8 @@ fn get_top_three(packs: Vec<ElfPack>) -> Vec<ElfPack> {
     let mut with_max: Vec<(&ElfPack, i32)> = packs.iter().map(|pack| (pack, pack.cals.iter().sum::<i32>())).collect();
     with_max.sort_by(|(_,o), (_,o2)| o.cmp(o2));
     with_max.reverse();
-    let res = with_max.iter().map(|(e,_)| (*e).clone()).collect::<Vec<_>>().clone();
-    res.iter().take(3).map(|e| e.clone()).collect()
+    let res = with_max.iter().map(|(e,_)| (*e).clone()).collect::<Vec<_>>();
+    res.iter().take(3).cloned().collect()
 }
 
 
@@ -60,12 +60,12 @@ pub fn day01_sol2 (filename: String) -> Option<i32> {
     let mut file = File::open(filename).ok()?;
     let mut str: String = "".to_string();
     file.read_to_string(&mut str).ok()?;
-    let split: Vec<_> = str.split("\n").map(|x| x.to_string()).collect();
+    let split: Vec<_> = str.split('\n').map(|x| x.to_string()).collect();
     let packs = to_packs(split).ok()?;
 
-    println!("packs {:?}", packs);
+    println!("packs {packs:?}");
     let elves = get_top_three(packs);
-    println!("packs {:?}", elves);
+    println!("packs {elves:?}");
 
     let m = elves
         .iter()
