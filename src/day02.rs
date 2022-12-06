@@ -1,10 +1,10 @@
-use crate::myutils::files::read_lines;
+use crate::myutils::{files::read_lines};
 
-#[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]
 enum Rps {
-    Rock,
-    Paper,
-    Scissors,
+    Rock, // also means lose in sol2
+    Paper, // also means draw in sol2
+    Scissors, // also means win in sol2
 }
 
 #[derive(Debug)]
@@ -33,8 +33,7 @@ fn rps_score(opp: &Rps, me: &Rps) -> i32 {
     }
 }
 
-fn pair_score(p: &Pair) -> i32 {
-    let Pair { opp, me } = p;
+fn pair_score(Pair{opp, me}: &Pair) -> i32 {
     rps_value(me) + rps_score(opp, me)
 }
 
@@ -72,4 +71,29 @@ fn make_pair(input: &str) -> Option<Pair> {
 
 pub fn day02_sol1(file: &str) -> i32 {
     day02_sol1_pure(get_pairs(file))
+}
+
+fn from_int(i: u8) -> Rps {
+    match i%3 {
+        0 => Rps::Rock,
+        1 => Rps::Paper,
+        2 => Rps::Scissors,
+        _ => panic!("unexpected i: {i:?}")
+}
+}
+
+fn make_move(starter: Rps, goal: Rps) -> Rps {
+    match goal {
+        Rps::Rock => from_int((starter as u8) + 2),
+        Rps::Paper => starter,
+        Rps::Scissors => from_int((starter as u8) + 1)
+    }
+}
+
+fn swap_pair(Pair { opp, me }: &Pair) -> Pair {
+    Pair { opp: *opp, me: make_move(*opp, *me) }
+}
+
+pub fn day02_sol2(file: &str) -> i32 {
+    day02_sol1_pure(get_pairs(file).iter().map(swap_pair).collect())
 }
