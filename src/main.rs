@@ -13,4 +13,5 @@ fn main() {
 
     println!("03.1.e {:?}", day03::day03_sol1("./inputs/day03_example"));
     println!("03.1 {:?}", day03::day03_sol1("./inputs/day03_1"));
+    println!("03.2 {:?}", day03::day03_sol2("./inputs/day03_1"));
 }
